@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS prim;
+
+CREATE TABLE prim (
+	alias VARCHAR(255) NOT NULL,
+	auth VARCHAR(63) NOT NULL,
+	url VARCHAR(1023),
+	last_object VARCHAR(63),
+	last_access DATETIME NOT NULL,
+	PRIMARY KEY (alias)
+);

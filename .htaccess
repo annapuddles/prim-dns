@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteRule ^alias$ alias.php
+RewriteRule ^alias/(.*)$ alias.php?name=$1
+RewriteRule ^redirect/(.*)$ redirect.php?name=$1
+
+<Files config.ini>
+	Order allow,deny
+	Deny from all
+</Files>
+
+<Files prim.php>
+	Order allow,deny
+	Deny from all
+</Files>

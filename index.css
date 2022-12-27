@@ -1,0 +1,21 @@
+html, body, input, button {
+	font-family: Helvetica;
+}
+
+#results {
+	display: none;
+	padding-top: 1em;
+}
+
+.label {
+	font-weight: bold;
+}
+
+#name, #auth, #code {
+	font-family: monospace;
+}
+
+#code {
+	padding-top: 1em;
+	white-space: pre;
+}
