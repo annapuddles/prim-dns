@@ -18,7 +18,7 @@ function generate_auth($conn) {
 }
 
 function prune($conn) {
-	$stmt = $conn->prepare("DELETE FROM prim WHERE last_access < DATE_SUB(NOW(), INTERVAL 1 DAY)");
+	$stmt = $conn->prepare("DELETE FROM alias WHERE last_access < DATE_SUB(NOW(), INTERVAL 1 DAY)");
 	$stmt->execute();
 	$stmt->close();
 }
@@ -33,7 +33,7 @@ function successful_response($name, $auth) {
 }
 
 function get_url($conn, $name) {
-	$stmt = $conn->prepare('SELECT url FROM prim WHERE alias = ?');
+	$stmt = $conn->prepare('SELECT url FROM alias WHERE name = ?');
 	$stmt->bind_param('s', $name);
 	$stmt->bind_result($url);
 	$stmt->execute();
@@ -41,7 +41,7 @@ function get_url($conn, $name) {
 	$stmt->close();
 
 	if ($url) {
-		$stmt = $conn->prepare('UPDATE prim SET last_access = NOW() WHERE alias = ?');
+		$stmt = $conn->prepare('UPDATE alias SET last_access = NOW() WHERE name = ?');
 		$stmt->bind_param('s', $name);
 		$stmt->execute();
 		$stmt->close();

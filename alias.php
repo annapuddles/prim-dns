@@ -29,7 +29,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		$name = isset($data->name) ? $data->name : $last_object;
 		$url = isset($data->url) ? $data->url : null;
 
-		$stmt = $conn->prepare('SELECT auth FROM prim WHERE alias = ?');
+		$stmt = $conn->prepare('SELECT auth FROM alias WHERE name = ?');
 		$stmt->bind_param('s', $name);
 		$stmt->bind_result($auth);
 		$stmt->execute();
@@ -40,7 +40,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 		if ($auth) {
 			if ($authorization == $auth) {
-				$stmt = $conn->prepare('UPDATE prim SET url = ?, last_object = ?, last_access = NOW() WHERE alias = ?');
+				$stmt = $conn->prepare('UPDATE alias SET url = ?, last_object = ?, last_access = NOW() WHERE name = ?');
 				$stmt->bind_param('sss', $url, $last_object, $name);
 				$stmt->execute();
 				$stmt->close();
@@ -54,7 +54,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		} else {
 			$auth = generate_auth($conn);
 
-			$stmt = $conn->prepare('INSERT INTO prim (alias, auth, url, last_object, last_access) VALUES (?, ?, ?, ?, NOW())');
+			$stmt = $conn->prepare('INSERT INTO alias (name, auth, url, last_object, last_access) VALUES (?, ?, ?, ?, NOW())');
 			$stmt->bind_param('ssss', $name, $auth, $url, $last_object);
 			$stmt->execute();
 			$stmt->close();
@@ -75,7 +75,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			die(json_encode(['error' => 'Bad Request: No auth was provided.']));
 		}
 
-		$stmt = $conn->prepare('DELETE FROM prim WHERE alias = ? AND auth = ?');
+		$stmt = $conn->prepare('DELETE FROM alias WHERE name = ? AND auth = ?');
 		$stmt->bind_param('ss', $_GET['name'], $authorization);
 		$stmt->execute();
 
