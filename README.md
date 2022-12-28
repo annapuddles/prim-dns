@@ -1,4 +1,10 @@
-# Resources
+# What is prim-url?
+
+prim-url is a permanent, customizable SecondLife prim URL webservice.
+
+Scripts in SecondLife can request URLs via [`llRequestURL`](https://wiki.secondlife.com/wiki/LlRequestURL) or [`llRequestSecureURL`](https://wiki.secondlife.com/wiki/LlRequestSecureURL), which allow them to receive and respond to HTTP requests from other scripts or even from outside of SecondLife. However, these URLs are temporary, and scripts need to request new URLs periodically, for example when the region the script is in restarts. prim-url allows a prim to create a permanent URL which points to the temporary one, and then update it whenever it receives a new temporary URL. Other entities can use this permanent URL to obtain the current temporary one at any given time.
+
+# API documentation
 
 ## Alias
 
