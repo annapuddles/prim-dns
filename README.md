@@ -5,11 +5,11 @@
 ### `POST /alias`
 
 #### Headers
-- `X-SecondLife-ObjectKey` The key of the requesting prim, used as the name of the alias if no custom name is provided.
+- `X-SecondLife-Object-Key` The key of the requesting prim, used as the name of the alias if no custom name is provided.
 - `Authorization` The auth string is required to update an existing alias, but may be omitted when creating a new alias.
 
 #### Request JSON
-- `name` A custom name for the alias. If omitted, the requesting prim's key (from the `X-SecondLife-ObjectKey` header) is used as the name.
+- `name` A custom name for the alias. If omitted, the requesting prim's key (from the `X-SecondLife-Object-Key` header) is used as the name.
 - `url` The SecondLife prim URL that the alias is for.
 
 #### Response JSON
