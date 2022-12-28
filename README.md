@@ -19,6 +19,7 @@ Create or update an alias for a SecondLife prim URL. A prim should make this req
 - `auth` The auth string that should be used in the `Authorization` header in order to update or delete the alias.
 - `endpoint` The full endpoint URL for the alias.
 - `redirect` A URL that can be used to send requests directly to the prim.
+  > **Note:** Using this URL in scripts can be tricky if you need to make a `POST` request to the prim. [`llHTTPRequest`](https://wiki.secondlife.com/wiki/LlHTTPRequest) does not handle redirects for `POST` requests transparently, and there is no way to access response headers such as `Location` from within the [`http_response`](https://wiki.secondlife.com/wiki/Http_response) event handler. However, the prim URL will also be included in the body of the redirect response just as it is in [a `GET` request to the endpoint](#get-aliasname), so it may still be possible to use this URL for `POST` requests in scripts.
 
 #### Example
 ```sh
