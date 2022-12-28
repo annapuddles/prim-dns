@@ -4,6 +4,8 @@
 
 ### `POST /alias`
 
+Create or update an alias for a SecondLife prim URL. A prim should make this request whenever it receives a new URL, such as when the script is restarted, the prim changes regions, or the region the prim is in restarts.
+
 #### Headers
 - `X-SecondLife-Object-Key` The key of the requesting prim, used as the name of the alias if no custom name is provided.
 - `Authorization` The auth string is required to update an existing alias, but may be omitted when creating a new alias.
@@ -33,6 +35,8 @@ curl -H 'Content-Type: application/json' -d '{"name": "example", "url": "google.
 
 ### `GET /alias/{name}`
 
+Get the current SecondLife prim URL for an alias.
+
 #### Response JSON
 - `url` The prim URL that the alias is for.
 
@@ -47,6 +51,8 @@ curl https://annapuddles.com/prim-url/alias/example
 ```
 
 ### `DELETE /alias/{name}`
+
+Delete an existing alias.
 
 #### Headers
 - `Authorization` The auth string for the alias.
