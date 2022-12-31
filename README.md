@@ -1,8 +1,8 @@
-# What is prim-url?
+# What is prim-dns?
 
-prim-url is a permanent, customizable SecondLife prim URL webservice.
+prim-dns is a permanent, customizable SecondLife prim URL webservice.
 
-Scripts in SecondLife can request URLs via [`llRequestURL`](https://wiki.secondlife.com/wiki/LlRequestURL) or [`llRequestSecureURL`](https://wiki.secondlife.com/wiki/LlRequestSecureURL), which allow them to receive and respond to HTTP requests from other scripts or even from outside of SecondLife. However, these URLs are temporary, and scripts need to request new URLs periodically, for example when the region the script is in restarts. prim-url allows a prim to create a permanent URL which points to the temporary one, and then update it whenever it receives a new temporary URL. Other entities can use this permanent URL to obtain the current temporary one at any given time.
+Scripts in SecondLife can request URLs via [`llRequestURL`](https://wiki.secondlife.com/wiki/LlRequestURL) or [`llRequestSecureURL`](https://wiki.secondlife.com/wiki/LlRequestSecureURL), which allow them to receive and respond to HTTP requests from other scripts or even from outside of SecondLife. However, these URLs are temporary, and scripts need to request new URLs periodically, for example when the region the script is in restarts. prim-dns allows a prim to create a permanent URL which points to the temporary one, and then update it whenever it receives a new temporary URL. Other entities can use this permanent URL to obtain the current temporary one at any given time.
 
 # API documentation
 
@@ -29,14 +29,14 @@ Create or update an alias for a SecondLife prim URL. A prim should make this req
 
 #### Example
 ```sh
-curl -H 'Content-Type: application/json' -d '{"name": "example", "url": "google.com"}' https://annapuddles.com/prim-url/alias
+curl -H 'Content-Type: application/json' -d '{"name": "example", "url": "google.com"}' https://annapuddles.com/prim-dns/alias
 ```
 ```json
 {
   "name": "example",
   "auth": "0ba171f25c8e8f8fd60dc58781239faf03ffe260",
-  "endpoint": "https://annapuddles.com/prim-url/alias/example",
-  "redirect": "https://annapuddles.com/prim-url/redirect/example"
+  "endpoint": "https://annapuddles.com/prim-dns/alias/example",
+  "redirect": "https://annapuddles.com/prim-dns/redirect/example"
 }
 ```
 
@@ -49,7 +49,7 @@ Get the current SecondLife prim URL for an alias.
 
 #### Example
 ```sh
-curl https://annapuddles.com/prim-url/alias/example
+curl https://annapuddles.com/prim-dns/alias/example
 ```
 ```json
 {
@@ -66,5 +66,5 @@ Delete an existing alias.
 
 #### Example
 ```sh
-curl -X DELETE -H 'Authorization: 0ba171f25c8e8f8fd60dc58781239faf03ffe260' https://annapuddles.com/prim-url/alias/example
+curl -X DELETE -H 'Authorization: 0ba171f25c8e8f8fd60dc58781239faf03ffe260' https://annapuddles.com/prim-dns/alias/example
 ```

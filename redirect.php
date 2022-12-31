@@ -1,5 +1,5 @@
 <?php
-include 'prim-url.php';
+include 'prim-dns.php';
 
 $conn = create_db_connection();
 

@@ -27,8 +27,8 @@ function successful_response($name, $auth) {
 	echo json_encode([
 		'name' => $name,
 		'auth' => $auth,
-		'endpoint' => 'https://annapuddles.com/prim-url/alias/' . $name,
-		'redirect' => 'https://annapuddles.com/prim-url/redirect/' . $name
+		'endpoint' => 'https://annapuddles.com/prim-dns/alias/' . $name,
+		'redirect' => 'https://annapuddles.com/prim-dns/redirect/' . $name
 	], JSON_UNESCAPED_SLASHES);
 }
 

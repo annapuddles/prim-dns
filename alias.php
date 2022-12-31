@@ -1,5 +1,5 @@
 <?php
-include 'prim-url.php';
+include 'prim-dns.php';
 
 $headers = array_change_key_case(getallheaders(), CASE_LOWER);
 
