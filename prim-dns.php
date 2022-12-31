@@ -24,11 +24,13 @@ function prune($conn) {
 }
 
 function successful_response($name, $auth) {
+	global $Config;
+
 	echo json_encode([
 		'name' => $name,
 		'auth' => $auth,
-		'endpoint' => 'https://annapuddles.com/prim-dns/alias/' . $name,
-		'redirect' => 'https://annapuddles.com/prim-dns/redirect/' . $name
+		'endpoint' => $Config['application']['root'] . '/alias/' . $name,
+		'redirect' => $Config['application']['root'] . '/redirect/' . $name
 	], JSON_UNESCAPED_SLASHES);
 }
 
