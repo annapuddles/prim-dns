@@ -18,7 +18,10 @@ function generate_auth($conn) {
 }
 
 function prune($conn) {
-	$stmt = $conn->prepare("DELETE FROM alias WHERE last_access < DATE_SUB(NOW(), INTERVAL 1 DAY)");
+	global $Config;
+
+	$stmt = $conn->prepare("DELETE FROM alias WHERE last_access < DATE_SUB(NOW(), INTERVAL ? DAY)");
+	$stmt->bind_param('i', $Config['application']['prune_days']);
 	$stmt->execute();
 	$stmt->close();
 }
