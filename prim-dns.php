@@ -26,7 +26,7 @@ function prune($conn) {
 function successful_response($name, $auth) {
 	global $Config;
 
-	echo json_encode([
+	return json_encode([
 		'name' => $name,
 		'auth' => $auth,
 		'endpoint' => $Config['application']['root'] . '/alias/' . $name,

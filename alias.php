@@ -39,18 +39,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		header('Content-type: application/json');
 
 		if ($auth) {
-			if ($authorization == $auth) {
-				$stmt = $conn->prepare('UPDATE alias SET url = ?, last_object = ?, last_access = NOW() WHERE name = ?');
-				$stmt->bind_param('sss', $url, $last_object, $name);
-				$stmt->execute();
-				$stmt->close();
-
-				successful_response($name, $auth);
-			} else {
+			if ($authorization != $auth) {
 				http_response_code(401);
-				echo json_encode(['error' => 'Unauthorized: This alias is already in use or you did not provide the correct authorization key in your request.']);
+				die(json_encode(['error' => 'Unauthorized: This alias is already in use or you did not provide the correct authorization key in your request.']));
 			}
 
+			$stmt = $conn->prepare('UPDATE alias SET url = ?, last_object = ?, last_access = NOW() WHERE name = ?');
+			$stmt->bind_param('sss', $url, $last_object, $name);
+			$stmt->execute();
+			$stmt->close();
+
+			echo successful_response($name, $auth);
 		} else {
 			$auth = generate_auth($conn);
 
@@ -59,7 +58,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$stmt->execute();
 			$stmt->close();
 
-			successful_response($name, $auth);
+			echo successful_response($name, $auth);
 		}
 
 		break;
