@@ -28,8 +28,12 @@ Create or update an alias for a SecondLife prim URL. A prim should make this req
   > **Note:** This cannot be used by scripts to make `POST` requests to the prim, as [`llHTTPRequest`](https://wiki.secondlife.com/wiki/LlHTTPRequest) does not handle redirects for `POST` requests transparently.
 
 #### Example
-```sh
-curl -H 'Content-Type: application/json' -d '{"name": "example", "url": "google.com"}' https://annapuddles.com/prim-dns/alias
+```lsl
+// Creating a new alias
+llHTTPRequest("https://annapuddles.com/prim-dns/alias", [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"], llList2Json(JSON_OBJECT, ["name", "example", "url", "https://google.com"]));
+
+// Updating an existing alias
+llHTTPRequest("https://annapuddles.com/prim-dns/alias", [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json", HTTP_CUSTOM_HEADER, "Authorization", "0ba171f25c8e8f8fd60dc58781239faf03ffe260"], llList2Json(JSON_OBJECT, ["name", "example", "url", "https://google.com"]));
 ```
 ```json
 {
@@ -48,8 +52,8 @@ Get the current SecondLife prim URL for an alias.
 - `url` The prim URL that the alias is for.
 
 #### Example
-```sh
-curl https://annapuddles.com/prim-dns/alias/example
+```lsl
+llHTTPRequest("https://annapuddles.com/prim-dns/alias/example", [], "");
 ```
 ```json
 {
@@ -65,6 +69,6 @@ Delete an existing alias.
 - `Authorization` The auth string for the alias.
 
 #### Example
-```sh
-curl -X DELETE -H 'Authorization: 0ba171f25c8e8f8fd60dc58781239faf03ffe260' https://annapuddles.com/prim-dns/alias/example
+```lsl
+llHTTPRequest("https://annapuddles.com/prim-dns/alias/example", [HTTP_METHOD, "DELETE", HTTP_CUSTOM_HEADER, "Authorization", "0ba171f25c8e8f8fd60dc58781239faf03ffe260"], "");
 ```
