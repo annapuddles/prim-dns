@@ -57,7 +57,7 @@ llHTTPRequest("https://annapuddles.com/prim-dns/alias/example", [], "");
 ```
 ```json
 {
-  "url": "google.com"
+  "url": "https://google.com"
 }
 ```
 
