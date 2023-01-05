@@ -28,17 +28,27 @@ Create or update an alias for a SecondLife prim URL. A prim should make this req
   > **Note:** This cannot be used by scripts to make `POST` requests to the prim, as [`llHTTPRequest`](https://wiki.secondlife.com/wiki/LlHTTPRequest) does not handle redirects for `POST` requests transparently.
 
 #### Example
-```lsl
-// Creating a new alias
-llHTTPRequest("https://annapuddles.com/prim-dns/alias", [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"], llList2Json(JSON_OBJECT, ["name", "example", "url", "https://google.com"]));
 
-// Updating an existing alias
-llHTTPRequest("https://annapuddles.com/prim-dns/alias", [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json", HTTP_CUSTOM_HEADER, "Authorization", "0ba171f25c8e8f8fd60dc58781239faf03ffe260"], llList2Json(JSON_OBJECT, ["name", "example", "url", "https://google.com"]));
+##### Creating a new alias
+```lsl
+llHTTPRequest("https://annapuddles.com/prim-dns/alias", [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json"], llList2Json(JSON_OBJECT, ["name", "example", "url", "https://google.com"]));
 ```
 ```json
 {
   "name": "example",
   "auth": "0ba171f25c8e8f8fd60dc58781239faf03ffe260",
+  "endpoint": "https://annapuddles.com/prim-dns/alias/example",
+  "redirect": "https://annapuddles.com/prim-dns/redirect/example"
+}
+```
+
+##### Updating an existing alias
+```lsl
+llHTTPRequest("https://annapuddles.com/prim-dns/alias", [HTTP_METHOD, "POST", HTTP_MIMETYPE, "application/json", HTTP_CUSTOM_HEADER, "Authorization", "0ba171f25c8e8f8fd60dc58781239faf03ffe260"], llList2Json(JSON_OBJECT, ["name", "example", "url", "https://google.com"]));
+```
+```json
+{
+  "name": "example",
   "endpoint": "https://annapuddles.com/prim-dns/alias/example",
   "redirect": "https://annapuddles.com/prim-dns/redirect/example"
 }
