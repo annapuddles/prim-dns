@@ -49,7 +49,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$stmt->execute();
 			$stmt->close();
 
-			echo successful_response($name, $auth);
+			echo successful_response($name, null);
 		} else {
 			$auth = generate_auth($conn);
 

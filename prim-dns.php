@@ -29,12 +29,17 @@ function prune($conn) {
 function successful_response($name, $auth) {
 	global $Config;
 
-	return json_encode([
+	$response = [
 		'name' => $name,
-		'auth' => $auth,
 		'endpoint' => $Config['application']['root'] . '/alias/' . $name,
 		'redirect' => $Config['application']['root'] . '/redirect/' . $name
-	], JSON_UNESCAPED_SLASHES);
+	];
+
+	if (isset($auth)) {
+		$response['auth'] = $auth;
+	}
+
+	return json_encode($response, JSON_UNESCAPED_SLASHES);
 }
 
 function get_url($conn, $name) {
