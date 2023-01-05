@@ -57,7 +57,7 @@ default
             string auth = llJsonGetValue(body, ["auth"]);
             string endpoint = llJsonGetValue(body, ["endpoint"]);
             
-            if (auth == prim_dns_auth)
+            if (auth == JSON_INVALID)
             {
                 llOwnerSay("Server URL updated successfully for " + endpoint);
             }
