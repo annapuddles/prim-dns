@@ -18,10 +18,7 @@ function generate_auth($conn) {
 }
 
 function prune($conn) {
-	global $Config;
-
-	$stmt = $conn->prepare("DELETE FROM alias WHERE last_access < DATE_SUB(NOW(), INTERVAL ? DAY)");
-	$stmt->bind_param('i', $Config['application']['prune_days']);
+	$stmt = $conn->prepare("DELETE FROM alias WHERE expires IS NOT NULL AND expires < NOW()");
 	$stmt->execute();
 	$stmt->close();
 }
@@ -42,6 +39,20 @@ function successful_response($name, $auth) {
 	return json_encode($response, JSON_UNESCAPED_SLASHES);
 }
 
+function update_expiration($conn, $name, $force) {
+	global $Config;
+
+	if ($force) {
+		$stmt = $conn->prepare('UPDATE alias SET expires = DATE_ADD(NOW(), INTERVAL ? DAY) WHERE name = ?');
+	} else {
+		$stmt = $conn->prepare('UPDATE alias SET expires = DATE_ADD(NOW(), INTERVAL ? DAY) WHERE name = ? AND expires IS NOT NULL');
+	}
+
+	$stmt->bind_param('is', $Config['application']['prune_days'], $name);
+	$stmt->execute();
+	$stmt->close();
+}
+
 function get_url($conn, $name) {
 	$stmt = $conn->prepare('SELECT url FROM alias WHERE name = ?');
 	$stmt->bind_param('s', $name);
@@ -51,10 +62,7 @@ function get_url($conn, $name) {
 	$stmt->close();
 
 	if ($url) {
-		$stmt = $conn->prepare('UPDATE alias SET last_access = NOW() WHERE name = ?');
-		$stmt->bind_param('s', $name);
-		$stmt->execute();
-		$stmt->close();
+		update_expiration($conn, $name, false);
 	}
 
 	return $url;

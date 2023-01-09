@@ -5,6 +5,6 @@ CREATE TABLE alias (
 	auth VARCHAR(63) NOT NULL,
 	url VARCHAR(1023),
 	last_object VARCHAR(63),
-	last_access DATETIME NOT NULL,
+	expires DATETIME,
 	PRIMARY KEY (name)
 );

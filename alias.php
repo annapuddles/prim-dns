@@ -44,19 +44,23 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				die(json_encode(['error' => 'Unauthorized: This alias is already in use or you did not provide the correct authorization key in your request.']));
 			}
 
-			$stmt = $conn->prepare('UPDATE alias SET url = ?, last_object = ?, last_access = NOW() WHERE name = ?');
+			$stmt = $conn->prepare('UPDATE alias SET url = ?, last_object = ? WHERE name = ?');
 			$stmt->bind_param('sss', $url, $last_object, $name);
 			$stmt->execute();
 			$stmt->close();
+
+			update_expiration($conn, $name, false);
 
 			echo successful_response($name, null);
 		} else {
 			$auth = generate_auth($conn);
 
-			$stmt = $conn->prepare('INSERT INTO alias (name, auth, url, last_object, last_access) VALUES (?, ?, ?, ?, NOW())');
+			$stmt = $conn->prepare('INSERT INTO alias (name, auth, url, last_object) VALUES (?, ?, ?, ?)');
 			$stmt->bind_param('ssss', $name, $auth, $url, $last_object);
 			$stmt->execute();
 			$stmt->close();
+
+			update_expiration($conn, $name, true);
 
 			echo successful_response($name, $auth);
 		}
