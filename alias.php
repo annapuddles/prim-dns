@@ -11,14 +11,14 @@ prune($conn);
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'GET':
-		$url = get_url($conn, $_GET['name']);
+		$alias = get_alias($conn, $_GET['name']);
 
-		if ($url == null) {
+		if ($alias == null) {
 			http_response_code(404);
 			die(json_encode(['error' => 'Not Found: No URL was found for the alias "' . $_GET['name'] . '".']));
 		}
 
-		echo json_encode(['url' => $url], JSON_UNESCAPED_SLASHES);
+		echo json_encode($alias, JSON_UNESCAPED_SLASHES);
 
 		break;
 

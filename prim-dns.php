@@ -45,7 +45,7 @@ function update_expiration($conn, $name, $force) {
 	if ($force) {
 		$stmt = $conn->prepare('UPDATE alias SET expires = DATE_ADD(NOW(), INTERVAL ? DAY) WHERE name = ?');
 	} else {
-		$stmt = $conn->prepare('UPDATE alias SET expires = DATE_ADD(NOW(), INTERVAL ? DAY) WHERE name = ? AND expires IS NOT NULL');
+		$stmt = $conn->prepare('UPDATE alias SET expires = DATE_ADD(NOW(), INTERVAL ? DAY) WHERE name = ? AND url IS NOT NULL AND expires IS NOT NULL');
 	}
 
 	$stmt->bind_param('is', $Config['application']['prune_days'], $name);
@@ -53,18 +53,20 @@ function update_expiration($conn, $name, $force) {
 	$stmt->close();
 }
 
-function get_url($conn, $name) {
-	$stmt = $conn->prepare('SELECT url FROM alias WHERE name = ?');
+function get_alias($conn, $name) {
+	update_expiration($conn, $name, false);
+
+	$stmt = $conn->prepare('SELECT url, expires FROM alias WHERE name = ?');
 	$stmt->bind_param('s', $name);
-	$stmt->bind_result($url);
+	$stmt->bind_result($url, $expires);
 	$stmt->execute();
 	$stmt->fetch();
 	$stmt->close();
 
 	if ($url) {
-		update_expiration($conn, $name, false);
+		return ['url' => $url, 'expires' => $expires];
+	} else {
+		return null;
 	}
-
-	return $url;
 }
 ?>
