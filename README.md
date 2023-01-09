@@ -60,6 +60,7 @@ Get the current SecondLife prim URL for an alias.
 
 #### Response JSON
 - `url` The prim URL that the alias is for.
+- `expires` The date and time at which the alias will expire if it has not been accessed again.
 
 #### Example
 ```lsl
@@ -67,7 +68,8 @@ llHTTPRequest("https://annapuddles.com/prim-dns/alias/example", [], "");
 ```
 ```json
 {
-  "url": "https://google.com"
+  "url": "https://google.com",
+  "expires": "2023-02-08 16:40:43"
 }
 ```
 
