@@ -23,10 +23,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		break;
 
 	case 'POST':
-		$last_object = isset($headers['x-secondlife-object-key']) ? $headers['x-secondlife-object-key'] : null;
+		$object = isset($headers['x-secondlife-object-key']) ? $headers['x-secondlife-object-key'] : null;
+		$owner = isset($headers['x-secondlife-owner-key']) ? $headers['x-secondlife-owner-key'] : null;
+		$region = isset($headers['x-secondlife-region']) ? $headers['x-secondlife-region'] : null;
 
 		$data = json_decode(file_get_contents('php://input'));
-		$name = isset($data->name) ? $data->name : $last_object;
+		$name = isset($data->name) ? $data->name : $object;
 		$url = isset($data->url) ? $data->url : null;
 
 		$stmt = $conn->prepare('SELECT auth FROM alias WHERE name = ?');
@@ -44,8 +46,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				die(json_encode(['error' => 'Unauthorized: This alias is already in use or you did not provide the correct authorization key in your request.']));
 			}
 
-			$stmt = $conn->prepare('UPDATE alias SET url = ?, last_object = ? WHERE name = ?');
-			$stmt->bind_param('sss', $url, $last_object, $name);
+			$stmt = $conn->prepare('UPDATE alias SET url = ?, object = ?, owner = ?, region = ? WHERE name = ?');
+			$stmt->bind_param('sssss', $url, $object, $owner, $region, $name);
 			$stmt->execute();
 			$stmt->close();
 
@@ -55,8 +57,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		} else {
 			$auth = generate_auth($conn);
 
-			$stmt = $conn->prepare('INSERT INTO alias (name, auth, url, last_object) VALUES (?, ?, ?, ?)');
-			$stmt->bind_param('ssss', $name, $auth, $url, $last_object);
+			$stmt = $conn->prepare('INSERT INTO alias (name, auth, url, object, owner, region) VALUES (?, ?, ?, ?, ?, ?)');
+			$stmt->bind_param('ssssss', $name, $auth, $url, $object, $owner, $region);
 			$stmt->execute();
 			$stmt->close();
 
