@@ -4,6 +4,8 @@ prim-dns is a permanent, customizable SecondLife prim URL webservice.
 
 Scripts in SecondLife can request URLs via [`llRequestURL`](https://wiki.secondlife.com/wiki/LlRequestURL) or [`llRequestSecureURL`](https://wiki.secondlife.com/wiki/LlRequestSecureURL), which allow them to receive and respond to HTTP requests from other scripts or even from outside of SecondLife. However, these URLs are temporary, and scripts need to request new URLs periodically, for example when the region the script is in restarts. prim-dns allows a prim to create a permanent URL which points to the temporary one, and then update it whenever it receives a new temporary URL. Other entities can use this permanent URL to obtain the current temporary one at any given time.
 
+The [prim-dns-server](https://github.com/annapuddles/prim-dns-server) project provides a script which handles automatically obtaining a URL for a prim and registering it on the prim-dns webservice, and forwards requests to additional scripts via link messages to handle them. The API documentation below is only needed if you wish to create your own script from scratch or interact with the API via some other method.
+
 # API documentation
 
 ## Alias
